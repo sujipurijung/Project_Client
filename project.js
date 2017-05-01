@@ -8,11 +8,7 @@ var stadiums = [{'id':0,'std':"Basketball Stadium",'date':"01/05/2517",'firsttim
 
 var stadiumIndex = 2;
 
-<<<<<<< HEAD
 app.use(express.static('public_html')) 
-=======
-app.use(express.static('public')) 
->>>>>>> dcaa99bccb9779e61a0accd40536cf050fbc0f9e
 
 router.route('/stadiums') 
 	.get( function(req,res) {
