@@ -54,7 +54,7 @@
           <a href="http://www.fb.com/profile.php" class="w3-bar-item w3-button w3-hide-small">Profile</a>
         </div>
       </div>
-      <h3>Select Stadium</h3>
+      <!-- <h3>Select Stadium</h3>
       <FORM> 
         <SELECT name= "ICECREAM"> 
         <OPTION SELECTED value="football"> Football Stadium
@@ -63,10 +63,10 @@
         <OPTION value="badminton" > Badminton Stadium
         </SELECT>
         <INPUT TYPE='SUBMIT' VALUE ="Select"> 
-      </FORM>
-    </header>
+      </FORM> -->
+    
     <!-- End Page Content -->
-    </div>
+    
     <center>
     <div class="container">
   
@@ -107,15 +107,14 @@
           <!-- <form action="/stadium.html" > -->
           <input type="hidden" id="id" ng-model="editStadium.id">
           statium : <FORM> 
-                      <SELECT name= "ICECREAM" value="editStadium.std"> 
-                      <OPTION SELECTED value="football"> Football Stadium
-                      <OPTION value="basketball" > Basketball Stadium
-                      <OPTION value="volleyball" > Volleyball Stadium
-                      <OPTION value="badminton" > Badminton Stadium
+                      <SELECT name= "ICECREAM" value="editStadium.std" ng-model = "editStadium.std"> 
+                      <OPTION SELECTED value="Football Stadium"> Football Stadium
+                      <OPTION value="Basketball Stadium" > Basketball Stadium
+                      <OPTION value="Volleyball Stadium" > Volleyball Stadium
+                      <OPTION value="Badminton Stadium" > Badminton Stadium
                       </SELECT> 
                     </FORM>
                    
-          &nbsp;&nbsp;
           วันที่ : <input type="date" name="date" ng-model = "editStadium.date">
           &nbsp;&nbsp;
           เริ่มเวลา : <input type="time" name="firsttime" ng-model = "editStadium.firsttime">
@@ -128,7 +127,7 @@
           <!--  </form> --> 
       </table>
     </center>
-  </div>
+  </div></header></div>
     <br><br><br><br><br><br>
 
     <!-- Footer -->
@@ -153,16 +152,16 @@
         { 
           update: {method:'PUT' } 
         })
-<<<<<<< HEAD
+
       
       $scope.result = {};
       $scope.stadiums = Stadium.query();
       $scope.editStadium={};
-=======
+
       $scope.editStadium = {}
       $scope.result = {}
       $scope.stadiums = Stadium.query()
->>>>>>> dcaa99bccb9779e61a0accd40536cf050fbc0f9e
+
       $scope.get = function(id) {
         Stadium.get({stadium_id:id}, function(stadium) {
           $scope.result = stadium

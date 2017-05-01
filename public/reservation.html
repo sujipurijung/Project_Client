@@ -56,6 +56,36 @@
           <a href="http://www.fb.com/profile.php  " class="w3-bar-item w3-button w3-hide-small">Profile</a>
         </div>
       </div>
+      <center>
+    <div class="container">
+    <div ng-app="stadiumApp" ng-controller="StadiumCtrl">
+      <ul>
+            <li>
+              <table>
+                <tr>
+                 
+                  <th><center>stadium</center></th>
+                  <th><center>วันที่</center></th>
+                  <th><center>เริ่มเวลา</center></th>
+                  <th><center>จนถึงเวลา</center></th>
+                  <!-- <th>ผู้จอง&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
+                </tr>
+
+                <tr  ng-repeat="stadium in stadiums track by $index" ng-if="!isEmpty(stadium)">
+                  
+                  <td><center>{{stadium.std}}</center></td>
+                  <td><center>{{stadium.date|date:"dd/MM/yyyy"}}</center></td>
+                  <td><center>{{stadium.firsttime|date:"HH.mm"}} น.</center></td>
+                  <td><center>{{stadium.lasttime|date:"HH.mm"}} น.</center></td>
+                  <!-- <td>ผู้จอง</td> -->
+                </tr>
+              </table>
+
+            </li>
+      </ul>
+    </div>
+    </div>
+    </center>
       
       <h3>Select Stadium</h3>
       <FORM> 
@@ -65,11 +95,11 @@
         <OPTION value="Volleyball Stadium" > Volleyball Stadium
         <OPTION value="Badminton Stadium" > Badminton Stadium
         </SELECT>
-      </FORM>
-    </header>
+      </FORM><br>
+    
 
     <!-- End Page Content -->
-  </div>
+  
   <div class="container">
     <center>
       <div class="well" style="width: 800px">
@@ -86,7 +116,7 @@
           <!--  </form> --> 
       </div>
     </center>
-  </div>
+  </div></header></div>
   <br><br><br><br><br><br>
 
     <!-- Footer -->
