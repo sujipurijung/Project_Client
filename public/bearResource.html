@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-resource.min.js"></script>
+	<style>
+		body {
+		    background-color: lightblue;
+		    background-repeat: no-repeat;
+		    background-position: right top;
+		    margin-right: 200px;
+		    background-attachment: fixed;
+		}
+		nav {
+		    float: left;
+		    max-width: 160px;
+		    margin: 0;
+		    padding: 1em;
+		}
+		article {
+		    margin-left: 300px;
+		    padding: 1em;
+		    overflow: hidden;
+		}
+	</style>
+
+</head>
+<body>
+	<div class="container">
+      <table width="500" border="0" align="center">
+        <tbody>
+          <tr>
+            <td>
+			 	<div ng-app="bearApp" ng-controller="BearCtrl">
+			 	<nav>
+			 		<h2>Add New Bear</h2>
+			 		<label for="name">Name: </label>
+			 		<input type="text" id="name" ng-model="addBear.name"><br>
+			 		<label for="weight">Weight: </label>
+			 		<input type="text" id="name" ng-model="addBear.weight"><br> 		
+			 		<button ng-click="add()">Add</button>
+
+			 		<h2>Edit New Bear</h2>
+			 		<input type="hidden" id="id" ng-model="editBear.id">
+			 		<label for="name">Name: </label>
+			 		<input type="text" id="name" ng-model="editBear.name"><br>
+			 		<label for="weight">Weight: </label>
+			 		<input type="text" id="name" ng-model="editBear.weight"><br> 		
+			 		<button ng-click="update(editBear.id)">Update</button><br><br> 
+			 		<img src="https://daily.rabbitstatic.com/wp-content/uploads/2015/11/%E0%B8%AB%E0%B9%8A%E0%B8%B0-%E0%B8%AD%E0%B8%B0%E0%B9%84%E0%B8%A3%E0%B8%99%E0%B8%B0-%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%88%E0%B8%A3%E0%B8%B4%E0%B8%87%E0%B9%81%E0%B8%A5%E0%B9%89%E0%B8%A7-%E0%B8%AB%E0%B8%A1%E0%B8%B5%E0%B8%9E%E0%B8%B9%E0%B8%AB%E0%B9%8C-%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B9%83%E0%B8%8A%E0%B9%88%E0%B8%9C%E0%B8%B9%E0%B9%89%E0%B8%8A%E0%B8%B2%E0%B8%A2.jpg" alt="error" style="width:240px;height:250px;">
+			 	</nav>
+			 	<article><div class="well">
+			 		<h2>Bear Restful:</h2> 
+			 		<b> Result: </b> {{result}} <br>
+			 		<b> Message: </b> {{message}} <br>
+			 		<ul>
+			 			<li ng-repeat="bear in bears track by $index" ng-if="!isEmpty(bear)" >
+			 				<font color="red" ng-if="select($index,result)">
+			 					{{bear}}		
+			 				</font>
+			 				<font color="blue" ng-if="!select($index,result)">
+			 					{{bear}}	
+			 				</font><br> 				
+			 				<button type="submit" ng-click="get(bear.id)"> Get </button>
+			 				<button type="submit" ng-click="edit(bear.id)"> Edit </button>
+			 				<button type="submit" ng-click="delete(bear.id)"> Delete </button>
+			 			</li>
+			 		</ul> 	
+			 	</div></article>
+			 	</div>
+			 </td>
+			</tr>
+		</tbody>
+	  </table>
+	</div>
+
+ 	<script type="text/javascript">
+ 		var app = angular.module("bearApp",['ngResource'])
+ 		app.controller("BearCtrl", function($scope, $resource){
+ 			var Bear = $resource('/api/bears/:bear_id',{bear_id: '@id'},
+ 				{ 
+ 					update: {method:'PUT' }	
+ 				})
+ 			$scope.editBear = {}
+ 			$scope.result = {}
+ 			$scope.bears = Bear.query()
+
+ 			$scope.get = function(id) {
+ 				Bear.get({bear_id:id}, function(bear) {
+ 					$scope.result = bear
+ 				})
+ 			}	
+
+ 			$scope.add =  function() {
+ 			   //  var givenBear = new Bear($scope.addBear)
+			    // givenBear.$save(function(data){ 
+			    //     console.log(data.message)			        
+			    // }) 
+
+			    Bear.save({name: $scope.addBear.name, 
+			    		 weight: $scope.addBear.weight})
+			    $scope.bears = Bear.query()
+ 			}
+
+ 			$scope.edit = function(id) {
+ 				Bear.get({bear_id:id}, function(bear) {
+ 					$scope.editBear.id = id
+ 					$scope.editBear.name = bear.name
+ 					$scope.editBear.weight = bear.weight
+ 					$scope.result = bear
+ 					$scope.message = 'Edited bear ' +  id
+ 				})
+ 			}
+
+ 			$scope.update = function(id) {
+ 				Bear.update( {bear_id: id}, { name: $scope.editBear.name, 
+ 											weight: $scope.editBear.weight}) 				
+ 				$scope.result = 'Update bear ' + id
+ 				$scope.bears = Bear.query()
+ 			}
+
+ 			$scope.delete = function(id) {
+ 				Bear.delete( {bear_id: id})
+ 				$scope.result = 'Delete bear ' + id
+ 				$scope.bears = Bear.query()
+ 			}
+
+ 			$scope.isEmpty = function(bear) {
+ 				return Object.keys(bear).length == 0
+ 			}
+
+ 			$scope.select = function(id, bear) {
+ 				return id == bear.id
+ 			}
+
+ 		})
+ 	</script>
+
+</body>
+</html>

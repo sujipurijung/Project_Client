@@ -1,0 +1,217 @@
+<!DOCTYPE html> 
+<html>
+<head>
+  <title>Stadium reservation system</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-resource.min.js"></script>
+
+
+  <style>
+      body,h1 {font-family: "Raleway", Arial, sans-serif}
+      h1 {letter-spacing: 5px,font-size:300px;}
+      .w3-row-padding img {margin-bottom: 12px}
+
+  </style>
+  <style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 75%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+  </style>
+</head>
+<body>
+
+    <!-- !PAGE CONTENT! -->
+  <div class="w3-content" style="max-width:1500px">
+
+    <!-- Header -->
+    <header class="w3-panel w3-center w3-opacity" style="padding:50px 16px">
+      <h1 class="w3-xlarge"><font size="100">Stadium reservation system</font></h1>
+      
+      <div class="w3-padding-32">
+        <div class="w3-bar w3-border">
+          <a href="stadium.html" class="w3-bar-item w3-button">Home</a>
+          <a href="reservation.html" class="w3-bar-item w3-button">Reservation</a>
+          <a href="edit.html" class="w3-bar-item w3-button w3-light-grey">Edit</a>
+          <a href="http://www.fb.com/profile.php" class="w3-bar-item w3-button w3-hide-small">Profile</a>
+        </div>
+      </div>
+      <h3>Select Stadium</h3>
+      <FORM> 
+        <SELECT name= "ICECREAM"> 
+        <OPTION SELECTED value="football"> Football Stadium
+        <OPTION value="basketball" > Basketball Stadium
+        <OPTION value="volleyball" > Volleyball Stadium
+        <OPTION value="badminton" > Badminton Stadium
+        </SELECT>
+        <INPUT TYPE='SUBMIT' VALUE ="Select"> 
+      </FORM>
+    </header>
+    <!-- End Page Content -->
+    </div>
+    <center>
+    <div class="container">
+    <div ng-app="stadiumApp" ng-controller="StadiumCtrl">
+      <ul>
+            <li>
+              <table>
+                <tr>
+                  <th><center>id</center></th>
+                  <th><center>stadium</center></th>
+                  <th><center>วันที่</center></th>
+                  <th><center>เริ่มเวลา</center></th>
+                  <th><center>จนถึงเวลา</center></th>
+                  <th><center>แก้ไขการจอง</center></th>
+                  <!-- <th>ผู้จอง&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
+                </tr>
+
+                <tr  ng-repeat="stadium in stadiums track by $index" ng-if="!isEmpty(stadium)">
+                  <td><center>{{stadium.id}}</center></td>
+                  <td><center>{{stadium.std}}</center></td>
+                  <td><center>{{stadium.date}}</center></td>
+                  <td><center>{{stadium.firsttime}}</center></td>
+                  <td><center>{{stadium.lasttime}}</center></td>
+                  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" ng-click="edit(stadium.id)"> Edit </button>
+                  <button type="submit" ng-click="delete(stadium.id)"> Delete </button>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                  <!-- <td>ผู้จอง</td> -->
+                </tr>
+              </table>
+
+            </li>
+      </ul>
+    </div>
+    </div>
+    </center>
+    <br>
+    <div class="container">
+    <center>
+      <table>
+          <h4>Edit Reservation</h4><br>
+          <!-- <form action="/stadium.html" > -->
+          <input type="hidden" id="id" ng-model="editStadium.id">
+          statium : <FORM> 
+                      <SELECT name= "ICECREAM" value="editStadium.std"> 
+                      <OPTION SELECTED value="football"> Football Stadium
+                      <OPTION value="basketball" > Basketball Stadium
+                      <OPTION value="volleyball" > Volleyball Stadium
+                      <OPTION value="badminton" > Badminton Stadium
+                      </SELECT> 
+                    </FORM>
+          &nbsp;&nbsp;
+          วันที่ : <input type="text" name="date" ng-model = "editStadium.date">
+          &nbsp;&nbsp;
+          เริ่มเวลา : <input type="text" name="firsttime" ng-model = "editStadium.firsttime">
+          &nbsp;&nbsp;
+          จนถึงเวลา : <input type="text" name="lasttime" ng-model = "editStadium.lasttime">
+          &nbsp;&nbsp;
+          <a href="stadium.html">
+            <button ng-click="update(editStadium.id)">Updeate</button>
+          </a>
+          <!--  </form> --> 
+      </table>
+    </center>
+  </div>
+    <br><br><br><br><br><br>
+
+    <!-- Footer -->
+    <footer class="w3-container w3-padding-60 w3-light-grey w3-center w3-large"> 
+      <i class="fa fa-facebook-official w3-hover-opacity"></i>
+      <i class="fa fa-instagram w3-hover-opacity"></i>
+      <i class="fa fa-snapchat w3-hover-opacity"></i>
+      <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+      <i class="fa fa-twitter w3-hover-opacity"></i>
+      <i class="fa fa-linkedin w3-hover-opacity"></i>
+    </footer>
+
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <script type="text/javascript">
+    var app = angular.module("stadiumApp",['ngResource'])
+    app.controller("StadiumCtrl", function($scope, $resource){
+      var Stadium = $resource('/api/stadiums/:stadium_id',{stadium_id: '@id'},
+        { 
+          update: {method:'PUT' } 
+        })
+      $scope.editStadium = {}
+      $scope.result = {}
+      $scope.stadiums = Stadium.query()
+
+      $scope.get = function(id) {
+        Stadium.get({stadium_id:id}, function(stadium) {
+          $scope.result = stadium
+        })
+      } 
+
+      $scope.add =  function() {
+         //  var givenStadium = new Stadium($scope.addStadium)
+          // givenStadium.$save(function(data){ 
+          //     console.log(data.message)              
+          // }) 
+
+          Stadium.save({std: $scope.addStadium.std, 
+                     firsttime: $scope.addStadium.firsttime,
+                     lasttime: $scope.addStadium.lasttime})
+          $scope.stadiums = Stadium.query()
+      }
+
+      $scope.edit = function(id) {
+        Stadium.get({stadium_id:id}, function(stadium) {
+          $scope.editStadium.id = id
+          $scope.editStadium.std = stadium.std
+          $scope.editStadium.date = stadium.date
+          $scope.editStadium.firsttime = stadium.firsttime
+          $scope.editStadium.lasttime = stadium.lasttime
+          $scope.result = stadium
+          $scope.message = 'Edited stadium ' +  id
+        })
+      }
+
+      $scope.update = function(id) {
+        Stadium.update( {stadium_id: id}, { std: $scope.editStadium.std, 
+                                            date: $scope.editStadium.date,
+                                            firsttime: $scope.editStadium.firsttime,
+                                            lasttime: $scope.editStadium.lasttime})        
+        $scope.result = 'Update stadium ' + id
+        $scope.stadiums = Stadium.query()
+      }
+
+      $scope.delete = function(id) {
+        Stadium.delete( {stadium_id: id})
+        $scope.result = 'Delete stadium ' + id
+        $scope.stadiums = Stadium.query()
+      }
+
+      $scope.isEmpty = function(stadium) {
+        return Object.keys(stadium).length == 0
+      }
+
+      $scope.select = function(id, stadium) {
+        return id == stadium.id
+      }
+
+    })
+  </script>
+
+</body>
+</html>
