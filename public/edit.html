@@ -20,7 +20,6 @@
       body,h1 {font-family: "Raleway", Arial, sans-serif}
       h1 {letter-spacing: 5px,font-size:300px;}
       .w3-row-padding img {margin-bottom: 12px}
-
   </style>
   <style>
     table {
@@ -28,19 +27,17 @@
         border-collapse: collapse;
         width: 75%;
     }
-
     td, th {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
     }
-
     tr:nth-child(even) {
         background-color: #dddddd;
     }
   </style>
 </head>
-<body>
+<body ng-app="stadiumApp" ng-controller="StadiumCtrl">
 
     <!-- !PAGE CONTENT! -->
   <div class="w3-content" style="max-width:1500px">
@@ -72,12 +69,12 @@
     </div>
     <center>
     <div class="container">
-    <div ng-app="stadiumApp" ng-controller="StadiumCtrl">
+  
       <ul>
             <li>
               <table>
                 <tr>
-                  <th><center>id</center></th>
+                  
                   <th><center>stadium</center></th>
                   <th><center>วันที่</center></th>
                   <th><center>เริ่มเวลา</center></th>
@@ -87,11 +84,10 @@
                 </tr>
 
                 <tr  ng-repeat="stadium in stadiums track by $index" ng-if="!isEmpty(stadium)">
-                  <td><center>{{stadium.id}}</center></td>
                   <td><center>{{stadium.std}}</center></td>
-                  <td><center>{{stadium.date}}</center></td>
-                  <td><center>{{stadium.firsttime}}</center></td>
-                  <td><center>{{stadium.lasttime}}</center></td>
+                  <td><center>{{stadium.date|date:"dd/MM/yyyy"}}</center></td>
+                  <td><center>{{stadium.firsttime|date:"HH.mm"}} น.</center></td>
+                  <td><center>{{stadium.lasttime|date:"HH.mm"}} น.</center></td>
                   <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" ng-click="edit(stadium.id)"> Edit </button>
                   <button type="submit" ng-click="delete(stadium.id)"> Delete </button>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                   <!-- <td>ผู้จอง</td> -->
@@ -100,7 +96,7 @@
 
             </li>
       </ul>
-    </div>
+
     </div>
     </center>
     <br>
@@ -118,15 +114,16 @@
                       <OPTION value="badminton" > Badminton Stadium
                       </SELECT> 
                     </FORM>
+                   
           &nbsp;&nbsp;
-          วันที่ : <input type="text" name="date" ng-model = "editStadium.date">
+          วันที่ : <input type="date" name="date" ng-model = "editStadium.date">
           &nbsp;&nbsp;
-          เริ่มเวลา : <input type="text" name="firsttime" ng-model = "editStadium.firsttime">
+          เริ่มเวลา : <input type="time" name="firsttime" ng-model = "editStadium.firsttime">
           &nbsp;&nbsp;
-          จนถึงเวลา : <input type="text" name="lasttime" ng-model = "editStadium.lasttime">
+          จนถึงเวลา : <input type="time" name="lasttime" ng-model = "editStadium.lasttime">
           &nbsp;&nbsp;
           <a href="stadium.html">
-            <button ng-click="update(editStadium.id)">Updeate</button>
+            <button ng-click="update(editStadium.id)">Update</button>
           </a>
           <!--  </form> --> 
       </table>
@@ -136,57 +133,57 @@
 
     <!-- Footer -->
     <footer class="w3-container w3-padding-60 w3-light-grey w3-center w3-large"> 
-      <i class="fa fa-facebook-official w3-hover-opacity"></i>
-      <i class="fa fa-instagram w3-hover-opacity"></i>
-      <i class="fa fa-snapchat w3-hover-opacity"></i>
-      <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-      <i class="fa fa-twitter w3-hover-opacity"></i>
-      <i class="fa fa-linkedin w3-hover-opacity"></i>
+      <a href="http://www.facebook.com"><i class="fa fa-facebook-official w3-hover-opacity"></i></a>
+      <a href="https://www.instagram.com/"><i class="fa fa-instagram w3-hover-opacity"></i></a>
+      <a href="https://www.snapchat.com/"><i class="fa fa-snapchat w3-hover-opacity"></i></a>
+      <a href="https://www.pinterest.com/"><i class="fa fa-pinterest-p w3-hover-opacity"></i></a>
+      <a href="https://twitter.com/"><i class="fa fa-twitter w3-hover-opacity"></i></a>
+      <a href="https://linkedin.com/?lang=th"><i class="fa fa-linkedin w3-hover-opacity"></i></a>
     </footer>
 
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
 
-    <script type="text/javascript">
+  
+
+</body>
+  <script type="text/javascript">
     var app = angular.module("stadiumApp",['ngResource'])
     app.controller("StadiumCtrl", function($scope, $resource){
       var Stadium = $resource('/api/stadiums/:stadium_id',{stadium_id: '@id'},
         { 
           update: {method:'PUT' } 
         })
-      $scope.editStadium = {}
-      $scope.result = {}
-      $scope.stadiums = Stadium.query()
-
+      
+      $scope.result = {};
+      $scope.stadiums = Stadium.query();
+      $scope.editStadium={};
       $scope.get = function(id) {
         Stadium.get({stadium_id:id}, function(stadium) {
           $scope.result = stadium
         })
       } 
-
       $scope.add =  function() {
          //  var givenStadium = new Stadium($scope.addStadium)
           // givenStadium.$save(function(data){ 
           //     console.log(data.message)              
           // }) 
-
           Stadium.save({std: $scope.addStadium.std, 
                      firsttime: $scope.addStadium.firsttime,
                      lasttime: $scope.addStadium.lasttime})
           $scope.stadiums = Stadium.query()
       }
-
       $scope.edit = function(id) {
+        
         Stadium.get({stadium_id:id}, function(stadium) {
           $scope.editStadium.id = id
           $scope.editStadium.std = stadium.std
-          $scope.editStadium.date = stadium.date
-          $scope.editStadium.firsttime = stadium.firsttime
-          $scope.editStadium.lasttime = stadium.lasttime
+          $scope.editStadium.date = new Date(stadium.date)
+          $scope.editStadium.firsttime = new Date(stadium.firsttime)
+          $scope.editStadium.lasttime = new Date(stadium.lasttime)
           $scope.result = stadium
           $scope.message = 'Edited stadium ' +  id
         })
       }
-
       $scope.update = function(id) {
         Stadium.update( {stadium_id: id}, { std: $scope.editStadium.std, 
                                             date: $scope.editStadium.date,
@@ -195,23 +192,17 @@
         $scope.result = 'Update stadium ' + id
         $scope.stadiums = Stadium.query()
       }
-
       $scope.delete = function(id) {
         Stadium.delete( {stadium_id: id})
         $scope.result = 'Delete stadium ' + id
         $scope.stadiums = Stadium.query()
       }
-
       $scope.isEmpty = function(stadium) {
         return Object.keys(stadium).length == 0
       }
-
       $scope.select = function(id, stadium) {
         return id == stadium.id
       }
-
     })
   </script>
-
-</body>
 </html>

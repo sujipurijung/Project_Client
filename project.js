@@ -2,13 +2,13 @@ var express = require('express'),
 	app = express(),
 	router = express.Router(),
 	bodyParser = require('body-parser')
-  
+  
 var stadiums = [{'id':0,'std':"Basketball Stadium",'date':"01/05/2517",'firsttime':"12.00",'lasttime':"13.00"},
 			 	{'id':1,'std':"Badminton Stadium",'date':"30/04/2517",'firsttime':"12.00",'lasttime':"13.00"}];
 
 var stadiumIndex = 2;
 
-app.use(express.static('public')) 
+app.use(express.static('public_html')) 
 
 router.route('/stadiums') 
 	.get( function(req,res) {
@@ -26,7 +26,7 @@ router.route('/stadiums')
 	    // res.json(stadiums); 
 	    res.json({ message: 'Added a new stadium'} ) 
 	})
-  
+  
 router.route('/stadiums/:stadium_id')
 	.get(function(req,res){
 		res.json(stadiums[req.params.stadium_id] )
@@ -53,6 +53,6 @@ router.route('/stadiums/:stadium_id')
 app.use('/api', bodyParser.json(), router)
 // app.use('/api',bodyParser.urlencoded({extended:false}), router)
 
-app.listen(8000, function() {
+app.listen(50044, function() {
 	console.log('server is running...')
 }) 
