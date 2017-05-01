@@ -153,10 +153,16 @@
         { 
           update: {method:'PUT' } 
         })
+<<<<<<< HEAD
       
       $scope.result = {};
       $scope.stadiums = Stadium.query();
       $scope.editStadium={};
+=======
+      $scope.editStadium = {}
+      $scope.result = {}
+      $scope.stadiums = Stadium.query()
+>>>>>>> dcaa99bccb9779e61a0accd40536cf050fbc0f9e
       $scope.get = function(id) {
         Stadium.get({stadium_id:id}, function(stadium) {
           $scope.result = stadium
